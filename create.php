@@ -1,22 +1,57 @@
 <?php
-require_once 'Connect.php';
-require_once 'Car.php';
-
-try {
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-    if ($id === FALSE || $id === NULL) {
-        throw new Exception("Invalid entry id");
-    }
+function old($index) {
+    global $formdata;
     
-    $car = Car::find($id);
-    if ($car === FALSE) {
-        throw new Exception("Car not found");
+    if (isset($formdata) && 
+        is_array($formdata) && 
+        key_exists($index, $formdata)) {
+        echo $formdata[$index];
     }
 }
-catch (Exception $e) {
-    die("Exception: " . $e->getMessage());
+
+function checked($index, $value) {
+    global $formdata;
+    
+    if (isset($formdata) && 
+        is_array($formdata) && 
+        key_exists($index, $formdata))
+        {
+            if (!is_array($formdata[$index]) && $formdata[$index] === $value){ // radio buttons
+                echo 'checked';
+            }
+            else if (is_array($formdata[$index]) && in_array($value,$formdata[$index])) { // checkboxes
+                echo 'checked';
+            }
+        }
+     
+}
+
+function selected($index, $value) {
+    global $formdata;
+    
+    if (isset($formdata) && 
+        is_array($formdata) && 
+        key_exists($index, $formdata))
+    {
+            if (!is_array($formdata[$index]) && $formdata[$index] === $value){ // radio buttons
+                echo 'selected';
+            }
+            else if (is_array($formdata[$index]) && in_array($value,$formdata[$index])) { // checkboxes
+                echo 'selected';
+            }
+        }
+}
+
+function error($index) {
+    global $errors;
+    
+    if (isset($errors) && is_array($errors) && key_exists($index, $errors)) {
+        echo $errors[$index];
+    }
 }
 ?>
+
+
 
 
 <!doctype html>
@@ -30,6 +65,7 @@ catch (Exception $e) {
 
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/mycss.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v4.0.2/bootstrap-float-label.min.css" />
 </head>
@@ -42,15 +78,20 @@ catch (Exception $e) {
         <div class="row">
             <div class="col-md-8">
 
-                <form method="POST" action="update.php" class="card card-block bg-faded">
-                     <!-- ---- Hidden ID ------ -->
+                <form method="POST" action="validate.php" class="card card-block bg-faded">
                     
-                    <input type="hidden" name="id" value="<?= $car->id ?>">
-                    
+                    <?php error('top_massage'); ?>
+
                     <!-- ---- Brand of the car ------ -->
                     <div class="form-row">
                         <label for="inlineRadioOptionss">What car do you like to insert?</label>
 
+                    </div>
+                    <div id="brand-error" class="error">
+                            <?php error('brand'); ?>
+                    </div>
+                    <div id="model-error" class="error">
+                            <?php error('model'); ?>
                     </div>
                     <div class="form-group input-group">
 
@@ -58,14 +99,13 @@ catch (Exception $e) {
                         <select class="form-control" 
                                 id="brand" 
                                 name="brand" 
-                                value="<?= $car->brand ?>">
+                                >
                           <option value="none">Please select ...</option>
-                          <option value="BMW">BMW</option>
-                          <option value="Mercedes">Mercedes</option>
-                          <option value="Volkswagen">Volkswagen</option>
-                          <option value="Porsche">Porsche</option>
-                          <option value="Audi">Audi</option>
-                          
+                          <option value="BMW" <?php selected('brand','BMW');?>>BMW</option>
+                          <option value="Mercedes" <?php selected('brand','Mercedes');?>>Mercedes</option>
+                          <option value="Volkswagen" <?php selected('brand','Volkswagen');?>>Volkswagen</option>
+                          <option value="Porsche" <?php selected('brand','Porsche');?>>Porsche</option>
+                          <option value="Audi" <?php selected('brand','Audi');?>>Audi</option>
                         </select>
                           <label for="brand">Brand</label>
                         </span>
@@ -76,10 +116,11 @@ catch (Exception $e) {
                                  class="form-control " 
                                  type="text" 
                                  placeholder="Passat / 5er / Panamera / etc."
-                                 value="<?= $car->model ?>">
+                                  value="<?php old("model"); ?>">
                           <span>Model</span>
                         </label>
                     </div>
+                    <br>
 
 
                     <!-- ---- Number of seats (Radio Button) ------ -->
@@ -99,7 +140,8 @@ catch (Exception $e) {
                                        type="radio" 
                                        name="seat" 
                                        id="seat2" 
-                                       value="2 seats"> 2 seats 
+                                       value="2 seats"
+                                       <?php checked('seat', '2 seats'); ?>> 2 seats 
                                     </label>
 
                                 </div>
@@ -109,7 +151,8 @@ catch (Exception $e) {
                                        type="radio" 
                                        name="seat" 
                                        id="seat4" 
-                                       value="4 seats"> 4 seats
+                                       value="4 seats"
+                                       <?php checked('seat', '4 seats'); ?>> 4 seats
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -118,7 +161,8 @@ catch (Exception $e) {
                                        type="radio" 
                                        name="seat" 
                                        id="seat6" 
-                                       value="6 seats" > 6 seats
+                                       value="6 seats" 
+                                       <?php checked('seat', '6 seats'); ?>> 6 seats
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -127,7 +171,8 @@ catch (Exception $e) {
                                        type="radio" 
                                        name="seat" 
                                        id="seat7" 
-                                       value="7 seats" > 7 seats
+                                       value="7 seats" 
+                                       <?php checked('seat', '7 seats'); ?>> 7 seats
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline ">
@@ -136,8 +181,12 @@ catch (Exception $e) {
                                        type="radio" 
                                        name="seat" 
                                        id="seat8" 
-                                       value="8 seats" > 8 seats
+                                       value="8 seats" 
+                                       <?php checked('seat', '8 seats'); ?>> 8 seats
                                 </label>
+                                </div>
+                                <div id="seat-error" class="error">
+                                <?php error('seat'); ?>
                                 </div>
                             </div>
                         </div>    
@@ -156,7 +205,8 @@ catch (Exception $e) {
                                    type="checkbox" 
                                    name="equip[]"
                                    id="climate-control" 
-                                   value="climate control"> climate control
+                                   value="climate control"
+                                   <?php checked('equip', 'climate control'); ?>> climate control
                           </label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -165,7 +215,7 @@ catch (Exception $e) {
                                    type="checkbox" 
                                    name="equip[]"
                                    id="cruise-control"
-                                   value="cuise control"> cruise control
+                                   value="cuise control" <?php checked('equip', 'cuise control'); ?>> cruise control
                           </label>
                             </div>
                             <div class="form-check form-check-inline ">
@@ -174,7 +224,8 @@ catch (Exception $e) {
                                    type="checkbox" 
                                    name="equip[]"
                                    id="automatic-drive" 
-                                   value="automatic drive" > automatic drive
+                                   value="automatic drive" 
+                                   <?php checked('equip', 'automatic drive'); ?>> automatic drive
                           </label>
                             </div>
                             <div class="form-check form-check-inline ">
@@ -183,9 +234,13 @@ catch (Exception $e) {
                                    type="checkbox" 
                                    name="equip[]"
                                    id="roof-box" 
-                                   value="roof box" > roof box
+                                   value="roof box" 
+                                   <?php checked('equip', 'roof box'); ?>> roof box
                           </label>
                             </div>
+                                <div id="equip-error" class="error">
+                                <?php error('equip'); ?>
+                                </div>    
                         </div>
                     </div>
                 </div>        
@@ -249,8 +304,11 @@ catch (Exception $e) {
                                        name="date_1"
                                        id="date_1"
                                        placeholder="dd-mm-yyyy"
-                                       value="<?= $car->date_1 ?>">
+                                       value="<?php old('date_1'); ?>">
                                 <label for="inputDate">from date </label>
+                            </div>
+                            <div id="date_1-error" class="error">
+                                <?php error('date_1'); ?>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -261,9 +319,12 @@ catch (Exception $e) {
                                      class="form-control " 
                                      type="text" 
                                      placeholder="hh:mm"
-                                     value="<?= $car->time_1 ?>">
+                                     value="<?php old('time_1'); ?>">
                                     <span>Time available</span>
                             </label>
+                            <div id="time_1-error" class="error">
+                                <?php error('time_1'); ?>
+                            </div>
                         </div>
                     </div>
 <br>
@@ -274,8 +335,11 @@ catch (Exception $e) {
                                        class="form-control"
                                        name="date_2"
                                        id="date_2"
-                                       value="<?= $car->date_2 ?>">
+                                       value="<?php old('date_2'); ?>">
                                 <label for="inputDate2">Return day</label>
+                            </div>
+                            <div id="date_2-error" class="error">
+                                <?php error('date_2'); ?>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -287,10 +351,12 @@ catch (Exception $e) {
                                      class="form-control " 
                                      type="text" 
                                      placeholder="hh:mm"
-                                     value="<?= $car->time_2 ?>">
+                                           value="<?php old('time_2'); ?>">
                                     <span>Time return</span>
                                 </label>
-                        
+                        <div id="time_2-error" class="error">
+                                <?php error('time_2'); ?>
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -309,7 +375,7 @@ catch (Exception $e) {
                                  class="form-control" 
                                  type="text" 
                                  placeholder="First name"
-                                 value="<?= $car->first_name ?>">
+                                 value="<?php old("first_name"); ?>">
                             
                           <label for="first">First name</label>
                         </span>
@@ -319,9 +385,14 @@ catch (Exception $e) {
                                  class="form-control" 
                                  type="text" 
                                  placeholder="Surname"
-                                 value="<?= $car->last_name ?>">
+                                 value="<?php old("last_name"); ?>">
                           <span>Surname</span>
                         </label>
+                    </div>
+                    <div id="first_name-error" class="error">
+                        <?php error("first_name"); ?>
+                    </div><div id="last_name-error" class="error">
+                        <?php error("last_name"); ?>
                     </div>
 
 
@@ -335,9 +406,12 @@ catch (Exception $e) {
                                  name="email"
                                  type="email" 
                                  placeholder="email@example.com" 
-                                 value="<?= $car->email ?>">
+                                 value="<?php old('email'); ?>">
                           <span>Email</span>
                         </label>
+                    </div>
+                    <div id="email-error" class="error">
+                                <?php error('email'); ?>
                     </div>
 
                     <br>
@@ -348,14 +422,16 @@ catch (Exception $e) {
                             <label for="image">Image Upload</label>
                             <input type="file" 
                                    class="form-control-file" 
-                                   id="image"
-                                   name="image"
+                                   id="image" 
+                                   name="image" 
                                    aria-describedby="fileHelp">
                             <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
                         </div>
+                        
                         <div class="col-12  col-md-6">
                              <img src="images/secretary-2199013_1920-1080x675.jpg" class="img-fluid rounded"  >
                         </div> 
+                        <div id="image-error" class="error"><?php error('image'); ?></div>
                         
                     </div>
                     <br>
@@ -367,14 +443,14 @@ catch (Exception $e) {
                             name="comment"
                             rows="4" 
                             placeholder="Place Comment Here ..."
-                            ><?= $car->comment ?></textarea>
+                            ></textarea>
                         <label for="comment">Comments</label>
                     </div>
 
 
 
                     <a href="index.php" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
 
                 </form>
             </div>
