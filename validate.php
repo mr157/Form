@@ -89,7 +89,7 @@ else if ($formdata['equip'] === NULL) {
     $errors['equip'] = "Equipment is a required field";
 } 
 else {
-    $equip_options = array("cruise control", "automatic drive", "roof box", "climate control");
+    $equip_options = array("climate control", "cruise control", "automatic drive", "roof box");
     foreach ($formdata['equip'] as $equip ){
         if (!in_array($equip, $equip_options)) {
         $errors['equip'] = "Invalid equipment type";
@@ -329,9 +329,7 @@ else {
         $errors['image'] = "Sorry, there was an error moving your uploaded file.";
     }
     else {
-       $new_path = $target_dir.$target_file.'.'.$imageFileType; 
-        $imageURL = $target_file.'.'.$imageFileType;
-        move_uploaded_file($_FILES['image']['tmp_name'], $new_path); 
+      $formdata['image'] = $target_file; 
         
     }
 }
@@ -344,6 +342,7 @@ else {
 //-------------------------------------------------------------------------------------------------
 
 if (empty($errors)) {
+    
     require 'store.php';
     
 }

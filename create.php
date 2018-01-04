@@ -215,7 +215,7 @@ function error($index) {
                                    type="checkbox" 
                                    name="equip[]"
                                    id="cruise-control"
-                                   value="cuise control" <?php checked('equip', 'cuise control'); ?>> cruise control
+                                   value="cruise control" <?php checked('equip', 'cruise control'); ?>> cruise control
                           </label>
                             </div>
                             <div class="form-check form-check-inline ">
@@ -247,45 +247,7 @@ function error($index) {
                         
                     <br>
 
-<!--  
 
-                    <div class="container">
-                        <div class='col-md-5'>
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker6'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='col-md-5'>
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker7'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker6').datetimepicker();
-                            $('#datetimepicker7').datetimepicker({
-                                useCurrent: false //Important! See issue #1075
-                            });
-                            $("#datetimepicker6").on("dp.change", function (e) {
-                                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                            });
-                            $("#datetimepicker7").on("dp.change", function (e) {
-                                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-                            });
-                        });
-                    </script>
---> 
                    
                     
                     <!-- ---- Datepicker ------ -->                    
@@ -435,63 +397,9 @@ function error($index) {
                     </div>
                     <br>
                     
-       
                     
-    <script            
                     
-                    $(document).ready( function() {
-    	$(document).on('change', '.btn-file :file', function() {
-		var input = $(this),
-			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-		input.trigger('fileselect', [label]);
-		});
-
-		$('.btn-file :file').on('fileselect', function(event, label) {
-		    
-		    var input = $(this).parents('.input-group').find(':text'),
-		        log = label;
-		    
-		    if( input.length ) {
-		        input.val(log);
-		    } else {
-		        if( log ) alert(log);
-		    }
-	    
-		});
-		function readURL(input) {
-		    if (input.files && input.files[0]) {
-		        var reader = new FileReader();
-		        
-		        reader.onload = function (e) {
-		            $('#img-upload').attr('src', e.target.result);
-		        }
-		        
-		        reader.readAsDataURL(input.files[0]);
-		    }
-		}
-
-		$("#imgInp").change(function(){
-		    readURL(this);
-		}); 	
-                });> </script>
                     
-        <div class="container">
-<div class="col-md-6">
-    <div class="form-group">
-        <label>Upload Image</label>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
-                    Browse… <input type="file" id="imgInp">
-                </span>
-            </span>
-            <input type="text" class="form-control" readonly>
-        </div>
-        <img id='img-upload'/>
-    </div>
-</div>
-</div>            
-                
                     <!-- ---- Comments ------ -->
                     <div class="form-group has-float-label">
                         <textarea 
