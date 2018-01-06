@@ -3,31 +3,34 @@ require_once 'Connect.php';
 require_once 'Car.php';
 
 try {
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    $id = $formdata['id'];
     if ($id === FALSE || $id === NULL) {
         throw new Exception("Invalid entry id");
     }
+    
     $car = Car::find($id);
     if ($car === FALSE) {
         throw new Exception("Car not found");
     }
 
-    $car->brand = filter_input(INPUT_POST, 'brand', FILTER_SANITIZE_STRING);
-    $car->model = filter_input(INPUT_POST, 'model', FILTER_SANITIZE_STRING);
-    $car->seat = filter_input(INPUT_POST, 'seat', FILTER_VALIDATE_INT);
-    $car->equip = filter_input(INPUT_POST, 'equip', FILTER_VALIDATE_INT);
-    $car->date_1 = filter_input(INPUT_POST, 'date_1', FILTER_SANITIZE_STRING);
-    $car->time_1 = filter_input(INPUT_POST, 'time_1', FILTER_SANITIZE_STRING);
-    $car->date_2 = filter_input(INPUT_POST, 'date_2', FILTER_SANITIZE_STRING);
-    $car->time_2 = filter_input(INPUT_POST, 'time_2', FILTER_SANITIZE_STRING);
-    $car->first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING);
-    $car->last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING);
-    $car->email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-    $car->comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
+    $car->brand = $formdata['brand'];
+    $car->model = $formdata['model'];
+    $car->seat = $formdata['seat'];
+    $car->equip = implode(", ",$formdata['equip']);
+    $car->date_1 =$formdata['date_1'];
+    $car->time_1 = $formdata['time_1'];
+    $car->date_2 = $formdata['date_2'];
+    $car->time_2 = $formdata['time_2'];
+    $car->first_name = $formdata['first_name'];
+    $car->last_name = $formdata['last_name'];
+    $car->email = $formdata['email'];
+    $car->image = $formdata['image'];
+    $car->comment = $formdata['comment'];
 
     $car->save();
+    print_r($car);
 
-    header("Location: index.php");
+   header("Location: index.php");
 }
 catch (Exception $e) {
     die("Exception: " . $e->getMessage());

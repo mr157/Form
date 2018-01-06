@@ -38,51 +38,51 @@ catch (Exception $e) {
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <td>Brand</td>
+                                    <td>Brand:</td>
                                     <td><?= $car->brand; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Model</td>
+                                    <td>Model:</td>
                                     <td><?= $car->model; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Seat</td>
+                                    <td>Number of seats:</td>
                                     <td><?= $car->seat; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Available from</td>
+                                    <td>Additional equipment:</td>
+                                    <td><?= $car->equip; ?></td>
+                                </tr>                                
+                                <tr>
+                                    <td>Date available:</td>
                                     <td><?= $car->date_1; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Time</td>
+                                    <td>Time available</td>
                                     <td><?= $car->time_1; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Return date</td>
+                                    <td>Return date:</td>
                                     <td><?= $car->date_2; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Return time</td>
+                                    <td>Return time:</td>
                                     <td><?= $car->time_2; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>First name</td>
-                                    <td><?= $car->first_name; ?></td>
+                                    <td>Contact Person:</td>
+                                    <td><?= $car->first_name; ?> <?= $car->last_name; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Last name</td>
-                                    <td><?= $car->last_name; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
+                                    <td>Email:</td>
                                     <td><?= $car->email; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Image</td>
+                                    <td>Image of the car</td>
                                     <td><?= $car->image; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Comments</td>
+                                    <td>Comments:</td>
                                     <td><?= $car->comment; ?></td>
                                 </tr>
                             </tbody>

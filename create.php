@@ -77,14 +77,15 @@ function error($index) {
 
         <div class="row">
             <div class="col-md-8">
-
                 <form method="POST" action="validate.php" class="card card-block bg-faded" enctype="multipart/form-data">
-                    
                     <?php error('top_massage'); ?>
+                <h2>Company Cars - Create a new entry </h2>
+                <p class="float-right"> * required field</p>
+                    
 
                     <!-- ---- Brand of the car ------ -->
                     <div class="form-row">
-                        <label for="inlineRadioOptionss">What car do you like to insert?</label>
+                        <label for="inlineRadioOptionss">What car do you like to insert?*</label>
 
                     </div>
                     <div id="brand-error" class="error">
@@ -107,7 +108,7 @@ function error($index) {
                           <option value="Porsche" <?php selected('brand','Porsche');?>>Porsche</option>
                           <option value="Audi" <?php selected('brand','Audi');?>>Audi</option>
                         </select>
-                          <label for="brand">Brand</label>
+                          <label for="brand">Brand*</label>
                         </span>
                         <label class="has-float-label">
                           <input 
@@ -117,7 +118,7 @@ function error($index) {
                                  type="text" 
                                  placeholder="Passat / 5er / Panamera / etc."
                                   value="<?php old("model"); ?>">
-                          <span>Model</span>
+                          <span>Model*</span>
                         </label>
                     </div>
                     <br>
@@ -130,7 +131,10 @@ function error($index) {
                         <div class="col-12 col-md-6">
 
                             <div class="form-row">
-                                <label for="inlineRadioOptionss">How many seats does the car have?</label>
+                                <label for="inlineRadioOptionss">How many seats does the car have?*</label>
+                                <div id="seat-error" class="error">
+                                <?php error('seat'); ?>
+                                </div>
 
                             </div>
                             <div class="form-row">
@@ -185,9 +189,7 @@ function error($index) {
                                        <?php checked('seat', '8 seats'); ?>> 8 seats
                                 </label>
                                 </div>
-                                <div id="seat-error" class="error">
-                                <?php error('seat'); ?>
-                                </div>
+
                             </div>
                         </div>    
 
@@ -195,7 +197,10 @@ function error($index) {
                             
                     <div class="col-12 col-md-6">        
                         <div class="form-row">
-                            <label>Does your car have special equipment? </label>
+                            <label>Does your car have additional equipment? </label>
+                            <div id="equip-error" class="error">
+                            <?php error('equip'); ?>
+                            </div>    
 
                         </div>
                         <div class="form-row">
@@ -238,9 +243,6 @@ function error($index) {
                                    <?php checked('equip', 'roof box'); ?>> roof box
                           </label>
                             </div>
-                                <div id="equip-error" class="error">
-                                <?php error('equip'); ?>
-                                </div>    
                         </div>
                     </div>
                 </div>        
@@ -253,13 +255,28 @@ function error($index) {
                     <!-- ---- Datepicker ------ -->                    
 
                      <div class="form-row">
-                        <label for="inlineRadioOptionss">When is the car available?</label>
+                        <label for="inlineRadioOptionss">When is the car available?*</label>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                         <div id="date_1-error" class="error">
+                                <?php error('date_1'); ?>
+                            </div>
+                        </div>   
+                        <div class="col-md-6">
+                            <div id="time_1-error" class="error">
+                                <?php error('time_1'); ?>
+                            </div>
+                        </div>
 
                     </div>
 
                     <div class="row">
                              
                         <div class="col-md-6">
+
                             <div class="form-group has-float-label">
                                 <input class="form-control"
                                        type="date" 
@@ -267,13 +284,11 @@ function error($index) {
                                        id="date_1"
                                        placeholder="dd-mm-yyyy"
                                        value="<?php old('date_1'); ?>">
-                                <label for="inputDate">from date </label>
-                            </div>
-                            <div id="date_1-error" class="error">
-                                <?php error('date_1'); ?>
+                                <label for="inputDate">Available date* </label>
                             </div>
                         </div>
                         <div class="col-md-6">
+                           
                               <label class="has-float-label">
                               <input 
                                      id="time_1" 
@@ -282,30 +297,41 @@ function error($index) {
                                      type="text" 
                                      placeholder="hh:mm"
                                      value="<?php old('time_1'); ?>">
-                                    <span>Time available</span>
+                                    <span>Available time*</span>
                             </label>
-                            <div id="time_1-error" class="error">
-                                <?php error('time_1'); ?>
-                            </div>
                         </div>
                     </div>
 <br>
                     <div class="row">
                         <div class="col-md-6">
+                         <div id="date_2-error" class="error">
+                                <?php error('date_2'); ?>
+                            </div>
+                        </div>   
+                        <div class="col-md-6">
+                            <div id="time_2-error" class="error">
+                                <?php error('time_2'); ?>
+                            </div>
+                        </div>
+
+                    </div>                    
+                    <div class="row">
+                       
+
+                        <div class="col-md-6">
+                        
                             <div class="form-group has-float-label">
                                 <input type="date" 
                                        class="form-control"
                                        name="date_2"
                                        id="date_2"
                                        value="<?php old('date_2'); ?>">
-                                <label for="inputDate2">Return day</label>
+                                <label for="inputDate2">Return day*</label>
                             </div>
-                            <div id="date_2-error" class="error">
-                                <?php error('date_2'); ?>
-                            </div>
+
                         </div>
                         <div class="col-md-6">
-                           
+    
                                 <label class="has-float-label">
                                     <input 
                                      id="time_2" 
@@ -314,11 +340,9 @@ function error($index) {
                                      type="text" 
                                      placeholder="hh:mm"
                                            value="<?php old('time_2'); ?>">
-                                    <span>Time return</span>
+                                    <span>Return time*</span>
                                 </label>
-                        <div id="time_2-error" class="error">
-                                <?php error('time_2'); ?>
-                            </div>
+                        
                         </div>
                     </div>
                     <br>
@@ -326,7 +350,13 @@ function error($index) {
                     
                     <!-- ---- Personal details ------ -->
                     <div class="form-row">
-                        <label for="Name">How can your college contact you?</label>
+                        <label for="Name">How can your colleagues contact you?*</label>
+                         <div id="first_name-error" class="error">
+                        <?php error("first_name"); ?>
+                        </div>
+                        <div id="last_name-error" class="error">
+                        <?php error("last_name"); ?>
+                        </div>
 
                     </div>
 
@@ -339,7 +369,7 @@ function error($index) {
                                  placeholder="First name"
                                  value="<?php old("first_name"); ?>">
                             
-                          <label for="first">First name</label>
+                          <label for="first">First name*</label>
                         </span>
                         <label class="has-float-label">
                           <input id="last_name"
@@ -348,17 +378,16 @@ function error($index) {
                                  type="text" 
                                  placeholder="Surname"
                                  value="<?php old("last_name"); ?>">
-                          <span>Surname</span>
+                          <span>Surname*</span>
                         </label>
                     </div>
-                    <div id="first_name-error" class="error">
-                        <?php error("first_name"); ?>
-                    </div><div id="last_name-error" class="error">
-                        <?php error("last_name"); ?>
-                    </div>
+
 
 
                     <!-- ---- email ------ -->
+                    <div id="email-error" class="error">
+                                <?php error('email'); ?>
+                    </div>
                     <div class="form-group input-group">
                         <span class="input-group-addon">@</span>
                         <label class="has-float-label">
@@ -369,11 +398,8 @@ function error($index) {
                                  type="email" 
                                  placeholder="email@example.com" 
                                  value="<?php old('email'); ?>">
-                          <span>Email</span>
+                          <span>Email*</span>
                         </label>
-                    </div>
-                    <div id="email-error" class="error">
-                                <?php error('email'); ?>
                     </div>
 
                     <br>
@@ -381,41 +407,39 @@ function error($index) {
                     <!-- ---- file upload ------ -->
                     <div class="row">
                         <div class="col-12 col-md-6">
-                            <label for="image">Image Upload</label>
+                            <label for="image">Upload an Image of your car.*</label>
+                        <div id="image-error" class="error"><?php error('image'); ?></div>
                             <input type="file" 
                                    class="event-form-control" 
                                    id="image" 
                                    name="image" />
-                            <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                            <small id="fileHelp" class="form-text text-muted">Please upload an image of you car so your colleagues know what it looks like.</small>
                         </div>
                         
-                        <div class="col-12  col-md-6">
-                             <img src="images/secretary-2199013_1920-1080x675.jpg" class="img-fluid rounded"  >
-                        </div> 
-                        <div id="image-error" class="error"><?php error('image'); ?></div>
                         
                     </div>
                     <br>
                     
-                    
-                    
+            
                     
                     <!-- ---- Comments ------ -->
                     <div class="form-group has-float-label">
+                     <div id="comment-error" class="error"><?php error('comment'); ?></div>
                         <textarea 
-                            class="form-control" 
+                            class="form-control " 
                             id="comment"
                             name="comment"
                             rows="4" 
-                            placeholder="Place Comment Here ..."
-                            ></textarea>
-                        <label for="comment">Comments</label>
+                            placeholder="Place comment here ..."
+                            ><?php old('comment'); ?></textarea>
+                        <label class="has-float-label" for="comment">Comments</label>
                     </div>
 
 
 
                     <a href="index.php" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    
 
                 </form>
             </div>

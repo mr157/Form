@@ -14,7 +14,7 @@ try {
 
     $car->delete();
 
-    header("Location: index.php");
+    header("Location: index_delete.php");
 }
 catch (Exception $e) {
     die("Exception: " . $e->getMessage());

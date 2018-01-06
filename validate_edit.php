@@ -1,5 +1,6 @@
 <?php
 /*echo '<pre>';
+echo 'POST array';
 print_r($_POST);
 echo '</pre>';
 echo '<pre>';
@@ -9,6 +10,12 @@ echo '</pre>';*/
 $errors = array();
 $formdata = array();
 
+//-------------------------------------------------------------------------------------------------
+// sanitize 'id'
+//-------------------------------------------------------------------------------------------------
+
+$formdata['id'] = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    
 
 
 //-------------------------------------------------------------------------------------------------
@@ -33,7 +40,6 @@ else {
 }
 
 
-
 //-------------------------------------------------------------------------------------------------
 // sanitize and validate 'model'
 //-------------------------------------------------------------------------------------------------
@@ -46,7 +52,7 @@ else {
         $errors['model'] = "Model is a required field.";
     }
     else if (strlen($formdata['model']) < 3) {
-        $errors['model'] = "Model needs to be at least 3 characters long.";
+        $errors['model'] = "Model needs to be at least 3 characters long";
     }
 }
 
@@ -92,9 +98,10 @@ else {
         if (!in_array($equip, $equip_options)) {
         $errors['equip'] = "Invalid equipment type.";
         }
-  
+      
     }
 }
+
 
 
 //-------------------------------------------------------------------------------------------------
@@ -129,7 +136,6 @@ else {
         }
     }
 }
-
 
 //-------------------------------------------------------------------------------------------------
 // sanitize and validate 'time_1'
@@ -234,6 +240,7 @@ else {
 }
 
 
+
 //-------------------------------------------------------------------------------------------------
 // sanitize and validate 'first_name'
 //-------------------------------------------------------------------------------------------------
@@ -275,13 +282,13 @@ if ($formdata['email'] === FALSE || $formdata['email'] === NULL) {
     $errors['email'] = "Illegal email.";
 }
 else if ($formdata['email'] === "") {
-        $errors['email'] = "Email is a required field..";
+        $errors['email'] = "Email is a required field.";
 }
 else {
     if ($formdata['email'] !== "") {
         $valid_email = filter_var($formdata['email'], FILTER_VALIDATE_EMAIL);
         if ($valid_email === FALSE) {
-            $errors['email'] = "Email address is not valid";
+            $errors['email'] = "Email address is not valid.";
         }
     }
 }
@@ -292,13 +299,11 @@ else {
 //-------------------------------------------------------------------------------------------------
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
-    $errors['image'] = 'Invalid request';
+    $errors['image'] = 'Invalid request.';
 }
-else if (!isset($_FILES["image"])) {
-    $errors['image'] = "Image is a required field.";
-}
+
 else if ($_FILES['image']['error'] !== 0) {
-    $errors['image'] = 'File upload error.';
+    $errors['image'] = 'File upload error';
 }
 else if (!is_uploaded_file($_FILES["image"]["tmp_name"])) {
     $errors['image'] = "Image filename is not an uploaded file.";
@@ -340,6 +345,8 @@ else {
 //-------------------------------------------------------------------------------------------------
 // sanitize and validate 'comment'
 //-------------------------------------------------------------------------------------------------
+
+
 $formdata['comment'] = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
 if ($formdata['comment'] === FALSE)  {
     $errors['comment'] = "Illegal comment.";
@@ -353,9 +360,10 @@ if ($formdata['comment'] === FALSE)  {
 
 if (empty($errors)) {
     
-    require 'store.php';
-    /* echo '<img src="' . $formdata['image'] . '" />';
-    echo"<pre>";
+   require 'update.php';
+    //echo '<img src="' . $formdata['image'] . '" />';
+    /*echo"<pre>";
+    echo 'after validate';
     print_r($formdata);
     echo"</pre>";*/
         
@@ -364,7 +372,7 @@ if (empty($errors)) {
 else 
     
     $errors['top_massage'] = '<div class="alert alert-danger" role="alert">
-                      <strong>Oh, something is wrong!</strong> Change a few things up and try submitting again.
+                      <strong>Oh snap!</strong> Change a few things up and try submitting again.
                     </div>';
     
     {
@@ -372,6 +380,7 @@ else
     file_exists($formdata['image'])){
     unlink($formdata['image']);
     }
-    require 'create.php';
+    require 'edit_2.php';
+
 }
 ?>
